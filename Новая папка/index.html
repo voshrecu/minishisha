@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniShisha - Магазин кальянов</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <h1>🔩 MiniShisha</h1>
+            <p>Магазин комплектующих для кальянов</p>
+        </header>
+
+        <!-- Возрастное ограничение -->
+        <div id="ageWarning" class="age-warning">
+            <h2>🔞 ВНИМАНИЕ: 18+</h2>
+            <p>Товары предназначены для лиц старше 18 лет</p>
+            <button onclick="confirmAge()">✅ Мне есть 18 лет</button>
+            <button onclick="rejectAge()">❌ Мне нет 18 лет</button>
+        </div>
+
+        <!-- Главный экран -->
+        <div id="mainScreen" class="screen hidden">
+            <!-- Навигация -->
+            <nav class="nav">
+                <button onclick="showScreen('catalog')">🛒 Каталог</button>
+                <button onclick="showScreen('cart')">📦 Корзина</button>
+                <button onclick="showScreen('orders')">📋 Мои заказы</button>
+                <button onclick="showScreen('referral')">🎁 Рефералы</button>
+                <button onclick="showScreen('admin')">⚙️ Админ</button>
+            </nav>
+
+            <!-- Каталог -->
+            <div id="catalog" class="screen-content">
+                <h2>🔩 Каталог товаров</h2>
+                <div id="productsList" class="products-grid"></div>
+            </div>
+
+            <!-- Корзина -->
+            <div id="cart" class="screen-content hidden">
+                <h2>📦 Корзина</h2>
+                <div id="cartItems"></div>
+                <div class="cart-total">
+                    <h3>Итого: <span id="totalPrice">0</span>₽</h3>
+                    <button onclick="checkout()" class="btn-primary">💳 Оформить заказ</button>
+                </div>
+            </div>
+
+            <!-- Оформление заказа -->
+            <div id="checkout" class="screen-content hidden">
+                <h2>🎯 Оформление заказа</h2>
+                <form id="orderForm">
+                    <input type="text" name="name" placeholder="Ваше имя" required>
+                    <input type="text" name="telegram" placeholder="Telegram (@username)" required>
+                    <input type="text" name="phone" placeholder="Телефон" required>
+                    <input type="text" name="address" placeholder="Адрес доставки" required>
+                    <button type="submit" class="btn-primary">💳 Получить реквизиты</button>
+                </form>
+            </div>
+
+            <!-- Реквизиты -->
+            <div id="payment" class="screen-content hidden">
+                <h2>💳 Реквизиты для оплаты</h2>
+                <div class="payment-info">
+                    <p><strong>Заказ #<span id="orderId"></span></strong></p>
+                    <p>Сумма к оплате: <span id="paymentAmount"></span>₽</p>
+                    <div class="bank-details">
+                        <p><strong>Карта Сбербанк:</strong></p>
+                        <p><code>2200 1234 5678 9012</code></p>
+                        <p><strong>Получатель:</strong> Иван Иванов</p>
+                        <p><strong>Тинькофф:</strong></p>
+                        <p><code>5536 9138 1234 5678</code></p>
+                    </div>
+                    <p class="payment-note">После оплаты пришлите скриншот чека в Telegram: @minishisha_support</p>
+                    <button onclick="confirmPayment()" class="btn-primary">✅ Я оплатил</button>
+                </div>
+            </div>
+
+            <!-- Мои заказы -->
+            <div id="orders" class="screen-content hidden">
+                <h2>📋 Мои заказы</h2>
+                <div id="ordersList"></div>
+            </div>
+
+            <!-- Реферальная система -->
+            <div id="referral" class="screen-content hidden">
+                <h2>🎁 Реферальная система</h2>
+                <div class="referral-info">
+                    <p>Пригласи друга - получи скидку 10%!</p>
+                    <p>Ваша ссылка:</p>
+                    <a href="#" id="referralLink" target="_blank" class="referral-link"></a>
+                    <button onclick="copyReferralLink()" class="btn-primary">📋 Скопировать ссылку</button>
+                    <div class="referral-stats">
+                        <p>Приглашено друзей: <span id="referralCount">0</span></p>
+                        <p>Ваша скидка: <span id="discountPercent">10%</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Админ панель -->
+            <div id="admin" class="screen-content hidden">
+                <h2>⚙️ Панель администратора</h2>
+                <div class="admin-panel">
+                    <div class="admin-section">
+                        <h3>Все заказы</h3>
+                        <div id="adminOrdersList"></div>
+                    </div>
+                    <div class="admin-section">
+                        <h3>Статистика</h3>
+                        <div class="stats">
+                            <p>Всего заказов: <span id="totalOrders">0</span></p>
+                            <p>На сумму: <span id="totalRevenue">0</span>₽</p>
+                        </div>
+                        <button onclick="exportOrders()" class="btn-secondary">📊 Экспорт заказов</button>
+                        <button onclick="clearAllData()" class="btn-danger">🗑️ Очистить все данные</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
